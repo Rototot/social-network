@@ -10,7 +10,9 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
       - name: Check build
-        run: go build -v ./...
+        run: |
+          go mod download
+          go build -v ./...
       - name: Unit Tests
         run: go test -v ./...
 
