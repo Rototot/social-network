@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="run CLI" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="social-network" />
-    <working_directory value="$PROJECT_DIR$" />
+    <working_directory value="$PROJECT_DIR$/backend" />
     <go_parameters value="-o social-network" />
     <parameters value="server" />
     <EXTENSION ID="net.ashald.envfile">
@@ -15,9 +15,9 @@
       </ENTRIES>
     </EXTENSION>
     <kind value="DIRECTORY" />
-    <directory value="$PROJECT_DIR$" />
+    <directory value="$PROJECT_DIR$/backend" />
     <filePath value="$PROJECT_DIR$" />
-    <output_directory value="$PROJECT_DIR$/bin" />
+    <output_directory value="$PROJECT_DIR$/backend/bin" />
     <method v="2" />
   </configuration>
 </component>

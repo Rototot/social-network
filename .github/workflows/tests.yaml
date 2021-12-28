@@ -14,6 +14,8 @@ jobs:
           go mod download
           go build -v ./...
       - name: Unit Tests
-        run: go test -v ./...
+        run: ./scripts/run-test-units.sh
+      - name: E2E Tests
+        run: ./scripts/run-test-e2e.sh
 
 
