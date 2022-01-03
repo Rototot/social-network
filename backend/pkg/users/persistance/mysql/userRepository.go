@@ -12,7 +12,7 @@ type UserRepository struct {
 }
 
 func NewUserRepository(db *sql.DB) *UserRepository {
-    return &UserRepository{db: db}
+	return &UserRepository{db: db}
 }
 
 func (r *UserRepository) FindById(ctx context.Context, id users.UserID) (*users.User, error) {

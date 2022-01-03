@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: [ "go", "test", "-v", "./..."]
+    command: [ "go", "test", "-v", "./..." ]
     volumes:
       - "./:/app"
 
@@ -17,6 +17,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: [ "go", "test", "-v", "./tests/..."]
+    command: [ "go", "test", "-v", "./tests/..." ]
     volumes:
       - "./:/app"

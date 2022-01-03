@@ -1,6 +1,5 @@
 # social-network
 
-
 ## Возможности
 
 ### HW 1: Заготовка для социальной сети
@@ -21,10 +20,10 @@
 
 * Страницы с анкетой.
 
-
 ## Структура проекта
 
 ### Install
+
 ```bash
 make init
 make build
@@ -35,17 +34,24 @@ make start
 ### Run
 
 ### Development
+
 #### Create Migrations
+
 ```bash
 make migrate-create
 ```
+
 ### Run migrations
+
 ```bash
 make build
 make migrate-up
 ```
+
 #### Install Dep
+
 #### Backend cli instrument
+
 ```
 go install github.com/abice/go-enum
 go install golang.org/x/tools/cmd/stringer
