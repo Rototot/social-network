@@ -4,6 +4,11 @@ PWD=$(pwd)
 help:
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
 
+backend-generate:
+	cd ./backend
+	go generate ./...
+	cd $PWD
+
 backend-build: ## go build
 	cd ./backend
 	go build -o bin/social-network ./

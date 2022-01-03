@@ -11,7 +11,9 @@ jobs:
         uses: golangci/golangci-lint-action@v2
       - name: Check build
         run: |
+          cd backend
           go mod download
+          go generate ./...
           go build -v ./...
       - name: Unit Tests
         run: ./scripts/run-test-units.sh
