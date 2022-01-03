@@ -17,14 +17,14 @@ type LoginServiceInterface interface {
 
 type LoginService struct {
 	repository    UserRepositoryInterface
-	hasher        PasswordHasher
+	hasher        PasswordHasherInterface
 	sessions      SessionStorageInterface
 	sessionExpire time.Duration
 }
 
 func NewLoginService(
 	repository UserRepositoryInterface,
-	hasher PasswordHasher,
+	hasher PasswordHasherInterface,
 	sessions SessionStorageInterface,
 	sessionExpire time.Duration,
 ) *LoginService {

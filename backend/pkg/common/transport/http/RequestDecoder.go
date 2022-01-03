@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-type RequestDtoFactory func() any
+type RequestDtoFactory func() interface{}
 
 func MakeRequestDecoder(factory RequestDtoFactory) httptransport.DecodeRequestFunc {
 	return func(ctx context.Context, r *http.Request) (request interface{}, err error) {

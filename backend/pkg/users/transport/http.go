@@ -23,7 +23,7 @@ func NewHttpHandler(
 
 	r.Methods("POST").Path("/login").Handler(httptransport.NewServer(
 		endpoints.PostLogin,
-		commonHttp.MakeRequestDecoder(func() *usersEndpoints.PostLoginRequest {
+		commonHttp.MakeRequestDecoder(func() interface{} {
 			return &usersEndpoints.PostLoginRequest{}
 		}),
 		commonHttp.MakeResponseEncoder(),
@@ -32,7 +32,7 @@ func NewHttpHandler(
 
 	r.Methods("POST").Path("/register").Handler(httptransport.NewServer(
 		endpoints.PostRegistration,
-		commonHttp.MakeRequestDecoder(func() *usersEndpoints.PostRegistrationRequest {
+		commonHttp.MakeRequestDecoder(func() interface{} {
 			return &usersEndpoints.PostRegistrationRequest{}
 		}),
 		commonHttp.MakeResponseEncoder(),
@@ -41,7 +41,7 @@ func NewHttpHandler(
 
 	r.Methods("POST").Path("/logout").Handler(httptransport.NewServer(
 		endpoints.PostLogin,
-		commonHttp.MakeRequestDecoder(func() *usersEndpoints.PostLogoutRequest {
+		commonHttp.MakeRequestDecoder(func() interface{} {
 			return &usersEndpoints.PostLogoutRequest{}
 		}),
 		commonHttp.MakeResponseEncoder(),

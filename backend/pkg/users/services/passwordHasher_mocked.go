@@ -11,7 +11,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
-// MockPasswordHasher is a mock of PasswordHasher interface.
+// MockPasswordHasher is a mock of PasswordHasherInterface interface.
 type MockPasswordHasher struct {
 	ctrl     *gomock.Controller
 	recorder *MockPasswordHasherMockRecorder

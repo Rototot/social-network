@@ -18,3 +18,15 @@ type RegisterParams struct {
 type RegisterServiceInterface interface {
 	Register(ctx context.Context, payload RegisterParams) (*users.User, error)
 }
+
+type RegisterService struct {
+}
+
+func NewRegisterService() *RegisterService {
+	return &RegisterService{}
+}
+
+func (r RegisterService) Register(ctx context.Context, payload RegisterParams) (*users.User, error) {
+	//TODO implement me
+	panic("implement me")
+}
