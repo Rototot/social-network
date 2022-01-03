@@ -50,36 +50,6 @@ func (mr *MockSessionStorageInterfaceMockRecorder) Add(id, expire interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockSessionStorageInterface)(nil).Add), id, expire)
 }
 
-// Get mocks base method.
-func (m *MockSessionStorageInterface) Get(id SessionId) (users.UserID, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", id)
-	ret0, _ := ret[0].(users.UserID)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Get indicates an expected call of Get.
-func (mr *MockSessionStorageInterfaceMockRecorder) Get(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockSessionStorageInterface)(nil).Get), id)
-}
-
-// Has mocks base method.
-func (m *MockSessionStorageInterface) Has(id users.UserID) (bool, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", id)
-	ret0, _ := ret[0].(bool)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Has indicates an expected call of Has.
-func (mr *MockSessionStorageInterfaceMockRecorder) Has(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockSessionStorageInterface)(nil).Has), id)
-}
-
 // Remove mocks base method.
 func (m *MockSessionStorageInterface) Remove(arg0 SessionId) error {
 	m.ctrl.T.Helper()

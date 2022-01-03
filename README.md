@@ -25,6 +25,12 @@
 ## Структура проекта
 
 ### Install
+```bash
+make init
+make build
+make migrate-up
+make start
+```
 
 ### Run
 

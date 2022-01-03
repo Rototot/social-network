@@ -9,7 +9,7 @@ create table users
     age        tinyint                 default 0                                             not null,
     created_at timestamp               default CURRENT_TIMESTAMP                             not null,
     updated_at timestamp               DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP not null,
-    interests  JSON                    DEFAULT '[]'                                          not null,
+    interests  JSON                                                                          not null,
     constraint users_pk
         primary key (id)
 );
