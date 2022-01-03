@@ -16,8 +16,12 @@ jobs:
           go generate ./...
           go build -v ./...
       - name: Unit Tests
-        run: ./scripts/run-test-units.sh
+        run: |
+          cd backend
+          ./scripts/run-test-units.sh
       - name: E2E Tests
-        run: ./scripts/run-test-e2e.sh
+        run: |
+        cd backend
+        ./scripts/run-test-e2e.sh
 
 
