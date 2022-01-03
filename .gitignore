@@ -19,3 +19,4 @@
 docker-compose.override.yml
 docker-compose.override.yaml
 .env
+.idea

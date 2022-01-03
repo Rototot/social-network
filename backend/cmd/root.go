@@ -51,7 +51,7 @@ func initConfig() {
 		viper.SetConfigFile(cfgFile)
 	} else {
 		viper.SetConfigType("env")
-		viper.AddConfigPath("../.")
+		viper.AddConfigPath(".")
 		viper.SetConfigFile(".env")
 	}
 

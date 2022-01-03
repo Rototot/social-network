@@ -1,0 +1,47 @@
+- id: 1
+  email: Sincere@april.biz
+  password: c8afeec4e9d29fa6307bc246965fe136a95bc47a9cfdedba0df256358eaa45ec0bf8d7a4333a4b13dc9a5508137d0f4d212272b27e64e41d4745a66b5f480759
+  first_name: Leanne
+  last_name: Graham
+  gender: female
+  age: 30
+  interests: '["Football","Swimming","Gaming","Development"]'
+  city: Gwenborough
+  created_at: default
+  updated_at: default
+
+- id: 2
+  email: Shanna@melissa.tv
+  password: c8afeec4e9d29fa6307bc246965fe136a95bc47a9cfdedba0df256358eaa45ec0bf8d7a4333a4b13dc9a5508137d0f4d212272b27e64e41d4745a66b5f480759
+  first_name: Ervin
+  last_name: Howell
+  gender: male
+  age: 28
+  created_at: default
+  updated_at: default
+  interests: '["Gaming"]'
+  city: Wisokyburgh
+
+- id: 3
+  email: nathan@yesenia.net
+  password: c8afeec4e9d29fa6307bc246965fe136a95bc47a9cfdedba0df256358eaa45ec0bf8d7a4333a4b13dc9a5508137d0f4d212272b27e64e41d4745a66b5f480759
+  first_name: Clementine
+  last_name: Bauch
+  gender: female
+  age: 41
+  created_at: default
+  updated_at: default
+  interests: '["Swimming"]'
+  city: McKenziehaven
+
+- id: 4
+  email: Karley_Dach@jasper.info
+  password: c8afeec4e9d29fa6307bc246965fe136a95bc47a9cfdedba0df256358eaa45ec0bf8d7a4333a4b13dc9a5508137d0f4d212272b27e64e41d4745a66b5f480759
+  first_name: Mrs. Dennis
+  last_name: Schulist
+  gender: male
+  age: 25
+  created_at: default
+  updated_at: default
+  interests: null
+  city: South Christy

@@ -2,7 +2,7 @@ package config
 
 import "github.com/spf13/viper"
 
-type appConfig struct {
+type AppConfig struct {
 	AppEnv       string `mapstructure:"APP_ENV"`
 	AppServePort string `mapstructure:"APP_PORT"`
 
@@ -16,8 +16,8 @@ type appConfig struct {
 	RedisPort string `mapstructure:"REDIS_PORT"`
 }
 
-func NewAppConfig() *appConfig {
-	return &appConfig{
+func NewAppConfig() *AppConfig {
+	return &AppConfig{
 		AppEnv:        viper.GetString("APP_ENV"),
 		AppServePort:  viper.GetString("APP_PORT"),
 		MySqlHost:     viper.GetString("MYSQL_HOST"),

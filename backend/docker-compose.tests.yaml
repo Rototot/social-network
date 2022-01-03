@@ -18,5 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     command: [ "go", "test", "-v", "./tests/..." ]
+    env_file:
+      - .env
     volumes:
       - "./:/app"
