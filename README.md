@@ -1,12 +1,5 @@
 # social-network
 
-## Dep
-### Backend cli instrument
-```
-go install github.com/abice/go-enum
-go install golang.org/x/tools/cmd/stringer
-go install github.com/golang/mock/mockgen@v1.6.0
-```
 
 ## Возможности
 
@@ -27,3 +20,29 @@ go install github.com/golang/mock/mockgen@v1.6.0
 
 
 * Страницы с анкетой.
+
+
+## Структура проекта
+
+### Install
+
+### Run
+
+### Development
+#### Create Migrations
+```bash
+make migrate-create
+```
+### Run migrations
+```bash
+make build
+make migrate-up
+```
+#### Install Dep
+#### Backend cli instrument
+```
+go install github.com/abice/go-enum
+go install golang.org/x/tools/cmd/stringer
+go install github.com/golang/mock/mockgen@v1.6.0
+go install github.com/golang-migrate/migrate/v4
+```
