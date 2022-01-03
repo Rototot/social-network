@@ -36,9 +36,9 @@ func (m *MockUserRepositoryInterface) EXPECT() *MockUserRepositoryInterfaceMockR
 }
 
 // FindByEmailAndPassword mocks base method.
-func (m *MockUserRepositoryInterface) FindByEmailAndPassword(cxt context.Context, email string, password users.HashedPassword) (*users.User, error) {
+func (m *MockUserRepositoryInterface) FindByEmailAndPassword(ctx context.Context, email string, password users.HashedPassword) (*users.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindByEmailAndPassword", cxt, email, password)
+	ret := m.ctrl.Call(m, "FindByEmailAndPassword", ctx, email, password)
 	ret0, _ := ret[0].(*users.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -48,4 +48,19 @@ func (m *MockUserRepositoryInterface) FindByEmailAndPassword(cxt context.Context
 func (mr *MockUserRepositoryInterfaceMockRecorder) FindByEmailAndPassword(cxt, email, password interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByEmailAndPassword", reflect.TypeOf((*MockUserRepositoryInterface)(nil).FindByEmailAndPassword), cxt, email, password)
+}
+
+// FindById mocks base method.
+func (m *MockUserRepositoryInterface) FindById(ctx context.Context, id users.UserID) (*users.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindById", ctx, id)
+	ret0, _ := ret[0].(*users.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindById indicates an expected call of FindById.
+func (mr *MockUserRepositoryInterfaceMockRecorder) FindById(cxt, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindById", reflect.TypeOf((*MockUserRepositoryInterface)(nil).FindById), cxt, id)
 }

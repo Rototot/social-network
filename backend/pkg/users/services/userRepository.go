@@ -8,5 +8,7 @@ import (
 )
 
 type UserRepositoryInterface interface {
-	FindByEmailAndPassword(cxt context.Context, email string, password users.HashedPassword) (*users.User, error)
+	FindByEmailAndPassword(ctx context.Context, email string, password users.HashedPassword) (*users.User, error)
+
+	FindById(ctx context.Context, id users.UserID) (*users.User, error)
 }
