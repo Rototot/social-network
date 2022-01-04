@@ -11,17 +11,16 @@ import (
 )
 
 func NewHttpHandler(
+	router *mux.Router,
 	endpoints usersEndpoints.Endpoints,
 	logger log.Logger,
 ) http.Handler {
-	r := mux.NewRouter()
-
 	options := []httptransport.ServerOption{
 		httptransport.ServerErrorHandler(transport.NewLogErrorHandler(logger)),
 		httptransport.ServerErrorEncoder(commonHttp.MakeErrorEncoder()),
 	}
 
-	r.Methods("POST").Path("/login").Handler(httptransport.NewServer(
+	router.Methods("POST").Path("/login").Handler(httptransport.NewServer(
 		endpoints.PostLogin,
 		commonHttp.MakeRequestDecoder(func() interface{} {
 			return &usersEndpoints.PostLoginRequest{}
@@ -30,7 +29,7 @@ func NewHttpHandler(
 		options...,
 	))
 
-	r.Methods("POST").Path("/register").Handler(httptransport.NewServer(
+	router.Methods("POST").Path("/register").Handler(httptransport.NewServer(
 		endpoints.PostRegistration,
 		commonHttp.MakeRequestDecoder(func() interface{} {
 			return &usersEndpoints.PostRegistrationRequest{}
@@ -39,7 +38,7 @@ func NewHttpHandler(
 		options...,
 	))
 
-	r.Methods("POST").Path("/logout").Handler(httptransport.NewServer(
+	router.Methods("POST").Path("/logout").Handler(httptransport.NewServer(
 		endpoints.PostLogin,
 		commonHttp.MakeRequestDecoder(func() interface{} {
 			return &usersEndpoints.PostLogoutRequest{}
@@ -48,5 +47,5 @@ func NewHttpHandler(
 		options...,
 	))
 
-	return r
+	return router
 }
