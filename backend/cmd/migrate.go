@@ -1,69 +1,67 @@
 package cmd
 
 import (
-    "database/sql"
-    "fmt"
-    "github.com/golang-migrate/migrate/v4"
-    "github.com/pkg/errors"
-    "github.com/spf13/cobra"
-    "log"
-    "social-network/pkg/config"
-    "time"
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/pkg/errors"
+	"github.com/spf13/cobra"
+	"os"
+	"social-network/pkg/config"
+	"time"
 
-    _ "github.com/go-sql-driver/mysql"
-    "github.com/golang-migrate/migrate/v4/database/mysql"
-    _ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/golang-migrate/migrate/v4/database/mysql"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
 // migrateCmd represents the migrate command
 var migrateCmd = &cobra.Command{
-    Use:   "migrate",
-    Short: "Run database migrations",
-    Run: func(cmd *cobra.Command, args []string) {
-        cnf := config.NewAppConfig()
+	Use:   "migrate",
+	Short: "Run database migrations",
+	Run: func(cmd *cobra.Command, args []string) {
+		var logger, _ = InitLogger()
 
-        //"user:password@tcp(host:port)/dbname?multiStatements=true"
-        db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true",
-            cnf.MySqlUser,
-            cnf.MySqlPassword,
-            cnf.MySqlHost,
-            cnf.MySqlPort,
-            cnf.MySqlDatabase,
-        ))
-        if err != nil {
-            log.Fatalln(err)
-        }
+		appConfig := config.NewAppConfig()
 
-        db.SetConnMaxLifetime(time.Minute * 1)
-        db.SetMaxOpenConns(10)
-        db.SetMaxIdleConns(10)
+		//"user:password@tcp(host:port)/dbname?multiStatements=true"
+		db, err := config.OpenMysqlConnection(appConfig)
+		if err != nil {
+			logger.Log(err)
+			os.Exit(1)
+		}
 
-        driver, err := mysql.WithInstance(db, &mysql.Config{
-            MigrationsTable: "migrations",
-            DatabaseName:    cnf.MySqlDatabase,
-        })
-        if err != nil {
-            log.Fatalln(err)
-        }
+		db.SetConnMaxLifetime(time.Minute * 1)
+		db.SetMaxOpenConns(10)
+		db.SetMaxIdleConns(10)
 
-        m, err := migrate.NewWithDatabaseInstance(
-            "file://./db/migrations",
-            "mysql",
-            driver,
-        )
-        if err != nil {
-            log.Fatalln(err)
-        }
+		driver, err := mysql.WithInstance(db, &mysql.Config{
+			MigrationsTable: "migrations",
+			DatabaseName:    appConfig.MySqlDatabase,
+		})
+		if err != nil {
+			logger.Log(err)
+			os.Exit(1)
+		}
 
-        err = m.Up()
-        if err != nil && !errors.Is(err, migrate.ErrNoChange) {
-            log.Fatalln(err)
-        }
+		m, err := migrate.NewWithDatabaseInstance(
+			"file://./db/migrations",
+			"mysql",
+			driver,
+		)
+		if err != nil {
+			logger.Log(err)
+			os.Exit(1)
+		}
 
-        log.Println("Migrations completed successfully")
-    },
+		err = m.Up()
+		if err != nil && !errors.Is(err, migrate.ErrNoChange) {
+			logger.Log(err)
+			os.Exit(1)
+		}
+
+		logger.Log("status", "Migrations completed successfully")
+	},
 }
 
 func init() {
-    rootCmd.AddCommand(migrateCmd)
+	rootCmd.AddCommand(migrateCmd)
 }

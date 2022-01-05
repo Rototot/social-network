@@ -5,9 +5,11 @@ import (
 	"database/sql"
 	"errors"
 	"social-network/pkg/users"
+	"social-network/pkg/users/services"
 )
 
 type UserRepository struct {
+	services.UserRepositoryInterface
 	db *sql.DB
 }
 
@@ -19,8 +21,8 @@ func (r *UserRepository) FindById(ctx context.Context, id users.UserID) (*users.
 	var user users.User
 	err := r.db.QueryRowContext(
 		ctx,
-		"SELECT * FROM users WHEN id = :id",
-		sql.Named("id", id),
+		"SELECT * FROM users WHERE id = ?",
+		id,
 	).Scan(
 		&user.ID,
 		&user.Email,
@@ -53,12 +55,14 @@ func (r *UserRepository) FindByEmailAndPassword(
 	var user users.User
 	err := r.db.QueryRowContext(
 		ctx,
-		"SELECT * FROM users WHEN email = :email, password = :password",
-		sql.Named("email", email),
-		sql.Named("password", password),
+		`
+	   SELECT id, email,  password, first_name, last_name, age, gender, city, interests
+	   FROM users
+	   WHERE email = ? AND password = ?`,
+		email,
+		password,
 	).Scan(
 		&user.ID,
-		&user.Email,
 		&user.Email,
 		&user.Password,
 		&user.FirstName,

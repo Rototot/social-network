@@ -1,5 +1,7 @@
 package endpoints
 
+//go:generate easyjson -all $GOFILE
+
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
@@ -8,7 +10,13 @@ import (
 )
 
 type PostRegistrationRequest struct {
-	services.RegisterParams
+	Email     string       `json:"email"`
+	FirstName string       `json:"firstName"`
+	LastName  string       `json:"lastName"`
+	Age       int8         `json:"age"`
+	Gender    users.Gender `json:"gender"`
+	City      string       `json:"city"`
+	Interests []string     `json:"interests"`
 }
 
 type PostRegistrationResponse struct {
@@ -17,7 +25,7 @@ type PostRegistrationResponse struct {
 
 func MakePostRegistrationsEndpoint(service services.RegisterServiceInterface) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(PostRegistrationRequest)
+		req := request.(*PostRegistrationRequest)
 
 		user, err := service.Register(ctx, services.RegisterParams{
 			Email:     req.Email,

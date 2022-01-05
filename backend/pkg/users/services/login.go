@@ -51,7 +51,7 @@ func (h *LoginService) Login(ctx context.Context, payload LoginParams) (SessionI
 		return "", users.ErrUserNotFound
 	}
 
-	session, err := h.sessions.Add(user.ID, h.sessionExpire)
+	session, err := h.sessions.Add(ctx, user.ID, h.sessionExpire)
 	if err != nil {
 		return "", err
 	}

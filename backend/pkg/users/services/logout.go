@@ -16,6 +16,6 @@ func NewLogoutService(sessions SessionStorageInterface) *LogoutService {
 	return &LogoutService{sessions: sessions}
 }
 
-func (s *LogoutService) Logout(_ context.Context, id SessionId) error {
-	return s.sessions.Remove(id)
+func (s *LogoutService) Logout(ctx context.Context, id SessionId) error {
+	return s.sessions.Remove(ctx, id)
 }

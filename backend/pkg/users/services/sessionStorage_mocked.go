@@ -5,6 +5,7 @@
 package services
 
 import (
+	context "context"
 	reflect "reflect"
 	users "social-network/pkg/users"
 	time "time"
@@ -36,30 +37,45 @@ func (m *MockSessionStorageInterface) EXPECT() *MockSessionStorageInterfaceMockR
 }
 
 // Add mocks base method.
-func (m *MockSessionStorageInterface) Add(id users.UserID, expire time.Duration) (SessionId, error) {
+func (m *MockSessionStorageInterface) Add(ctx context.Context, id users.UserID, expire time.Duration) (SessionId, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Add", id, expire)
+	ret := m.ctrl.Call(m, "Add", ctx, id, expire)
 	ret0, _ := ret[0].(SessionId)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Add indicates an expected call of Add.
-func (mr *MockSessionStorageInterfaceMockRecorder) Add(id, expire interface{}) *gomock.Call {
+func (mr *MockSessionStorageInterfaceMockRecorder) Add(ctx, id, expire interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockSessionStorageInterface)(nil).Add), id, expire)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockSessionStorageInterface)(nil).Add), ctx, id, expire)
+}
+
+// Get mocks base method.
+func (m *MockSessionStorageInterface) Get(ctx context.Context, id SessionId) (users.UserID, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Get", ctx, id)
+	ret0, _ := ret[0].(users.UserID)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Get indicates an expected call of Get.
+func (mr *MockSessionStorageInterfaceMockRecorder) Get(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockSessionStorageInterface)(nil).Get), ctx, id)
 }
 
 // Remove mocks base method.
-func (m *MockSessionStorageInterface) Remove(arg0 SessionId) error {
+func (m *MockSessionStorageInterface) Remove(ctx context.Context, id SessionId) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0)
+	ret := m.ctrl.Call(m, "Remove", ctx, id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockSessionStorageInterfaceMockRecorder) Remove(arg0 interface{}) *gomock.Call {
+func (mr *MockSessionStorageInterfaceMockRecorder) Remove(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockSessionStorageInterface)(nil).Remove), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockSessionStorageInterface)(nil).Remove), ctx, id)
 }

@@ -9,6 +9,8 @@ services:
     depends_on:
       - mysql
       - redis
+    ports:
+      - "8000:8000"
 
   mysql:
     image: mysql:8
@@ -21,3 +23,5 @@ services:
     env_file:
       - .env
     image: redis:6-alpine
+    ports:
+      - "6379:6379"

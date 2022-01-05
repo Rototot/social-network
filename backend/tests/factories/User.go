@@ -68,8 +68,8 @@ var UserFactory = factory.NewFactory(
 
 		return tx.QueryRowContext(args.Context(), `INSERT INTO users(
                   id, email, password, first_name, last_name, 
-                  gender, age, interests
-                  ) VALUE (?, ?, ?, ?, ?, ?, ?, ?)`,
+                  gender, age, interests, city
+                  ) VALUE (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			user.ID,
 			user.Email,
 			user.Password,
@@ -78,6 +78,6 @@ var UserFactory = factory.NewFactory(
 			gender,
 			user.Age,
 			interests,
-			//user.City,
+			user.City,
 		).Err()
 	})

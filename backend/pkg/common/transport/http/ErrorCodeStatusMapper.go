@@ -1,14 +1,16 @@
 package http
 
 import "net/http"
-import "social-network/pkg/common/constants"
+import "social-network/pkg/common"
 
 var errorStatusMap = map[error]int{
-	constants.ErrNotFound:      http.StatusNotFound,
-	constants.ErrAlreadyExists: http.StatusBadRequest,
+	common.ErrNotFound:      http.StatusNotFound,
+	common.ErrAlreadyExists: http.StatusBadRequest,
 }
 
-func ErrorCodeStatusMapperFunc(err error, extendsStatusMapper map[error]int) int {
+type ErrStatusMap map[error]int
+
+func ErrorCodeStatusMapperFunc(err error, extendsStatusMapper ErrStatusMap) int {
 
 	if status, ok := extendsStatusMapper[err]; ok {
 		return status

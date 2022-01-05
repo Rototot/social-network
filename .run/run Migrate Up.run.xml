@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="run Server" type="GoApplicationRunConfiguration" factoryName="Go Application">
+  <configuration default="false" name="run Migrate Up" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="social-network" />
     <working_directory value="$PROJECT_DIR$/backend" />
-    <go_parameters value="-o ./bin/social-network" />
-    <parameters value="server" />
+    <go_parameters value="-o bin/social-network" />
+    <parameters value="migrate" />
     <EXTENSION ID="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />
       <option name="IS_SUBST" value="false" />

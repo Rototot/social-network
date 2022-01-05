@@ -2,7 +2,7 @@
   <configuration default="false" name="run Server" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="social-network" />
     <working_directory value="$PROJECT_DIR$/backend" />
-    <go_parameters value="-o ./bin/social-network" />
+    <go_parameters value="-o bin/social-network" />
     <parameters value="server" />
     <EXTENSION ID="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />

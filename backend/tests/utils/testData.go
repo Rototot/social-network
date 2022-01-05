@@ -51,5 +51,10 @@ func LoadFactories(t *testing.T, conn *sql.DB) []*users.User {
 		listUsers[i] = user.(*users.User)
 	}
 
+	if err := tx.Commit(); err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log("factory: loading completed")
 	return listUsers
 }

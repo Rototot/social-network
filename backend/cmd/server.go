@@ -1,111 +1,153 @@
 package cmd
 
 import (
+	"context"
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/go-kit/kit/log"
-	"github.com/gorilla/mux"
+	"github.com/go-redis/redis/v8"
 	"net/http"
 	"os"
 	"os/signal"
 	"social-network/pkg/config"
-	"social-network/pkg/users/endpoints"
+	"social-network/pkg/ping"
+	userEndpoints "social-network/pkg/users/endpoints"
 	"social-network/pkg/users/persistance/mysql"
-	"social-network/pkg/users/services"
-	"social-network/pkg/users/transport"
+	redis2 "social-network/pkg/users/persistance/redis"
+	userServices "social-network/pkg/users/services"
+	userTransport "social-network/pkg/users/transport"
 	"syscall"
 	"time"
 
 	"github.com/spf13/cobra"
 )
 
+const defaultHttpAddr = ":8000"
+const defaultSessionTimeExpire = time.Hour * 24 * 30
+
+func init() {
+	rootCmd.AddCommand(serverCmd)
+}
+
 // serverCmd represents the server command
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
-		var httpAddr = flag.String("http.addr", ":8080", "HTTP listen address")
+		var httpAddr = flag.String("http.addr", defaultHttpAddr, "HTTP listen address")
 		flag.Parse()
 
-		var logger log.Logger
-		{
-			logger = log.NewLogfmtLogger(os.Stderr)
-			logger = log.With(logger, "ts", log.DefaultTimestampUTC)
-			logger = log.With(logger, "caller", log.DefaultCaller)
-		}
+		// init loggers
+		var logger, httpLogger = InitLogger()
 
-		fmt.Println("start server ...")
-
-		// init conn
-		var cnf = config.NewAppConfig()
+		// init infra components
+		var appConfig = config.NewAppConfig()
 		var conn *sql.DB
 		{
-			db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true",
-				cnf.MySqlUser,
-				cnf.MySqlPassword,
-				cnf.MySqlHost,
-				cnf.MySqlPort,
-				cnf.MySqlDatabase,
-			))
+			db, err := config.OpenMysqlConnection(appConfig)
 			if err != nil {
 				logger.Log("database", err)
 				os.Exit(1)
 			}
 			conn = db
 		}
-
 		defer conn.Close()
 
-		var httpHandler http.Handler
+		var redisClient *redis.Client
 		{
-			var userRepository = mysql.NewUserRepository(conn)
-			userEndpoints, err := endpoints.MakeEndpoints(
-				services.NewLoginService(
-					userRepository,
-					services.NewPasswordHasher(),
-					nil,
-					// todo вынести в конфиг
-					time.Hour*24*30,
-				),
-				services.NewRegisterService(),
-				// todo поправить
-				services.NewLogoutService(nil),
-			)
+			client, err := config.OpenRedisConnection(appConfig)
 			if err != nil {
-				logger.Log("endpoints", err)
+				logger.Log("redis", err)
 				os.Exit(1)
 			}
 
-			var r = mux.NewRouter()
-			var rAPI = r.PathPrefix("/api").Subrouter()
-			httpHandler = transport.NewHttpHandler(
-				rAPI,
-				userEndpoints,
+			redisClient = client
+		}
+
+		// init http handlers
+		var userHandler http.Handler
+		var authHandler http.Handler
+		var pingHandler http.Handler
+		{
+			// user and auth handlers
+			{
+				userRepository := mysql.NewUserRepository(conn)
+				sessionStorage := redis2.NewSessionRepository(redisClient)
+				endpoints, err := userEndpoints.MakeEndpoints(
+					userServices.NewLoginService(
+						userRepository,
+						userServices.NewPasswordHasher(),
+						sessionStorage,
+						defaultSessionTimeExpire,
+					),
+					userServices.NewRegisterService(),
+					// todo поправить
+					userServices.NewLogoutService(sessionStorage),
+					userRepository,
+					sessionStorage,
+				)
+				if err != nil {
+					logger.Log("userEndpoints", err)
+					os.Exit(1)
+				}
+
+				userHandler = userTransport.MakeUserHttpHandler(
+					endpoints,
+					httpLogger,
+				)
+
+				authHandler = userTransport.MakeAuthHttpHandler(
+					endpoints,
+					httpLogger,
+				)
+			}
+
+			pingHandler = ping.MakeUserHttpHandler(
+				ping.MakeEndpoints(),
 				logger,
 			)
 		}
 
-		errs := make(chan error)
-		go listenStopSignal()(errs)
+		// merge http handlers to server
+		var mux = http.NewServeMux()
+		mux.Handle("/api/auth/", authHandler)
+		mux.Handle("/api/user/", userHandler)
+		mux.Handle("/", pingHandler)
+
+		h := http.DefaultServeMux
+		h.Handle("/", mux)
+
+		var server = &http.Server{
+			Addr: *httpAddr,
+			// Good practice to set timeouts to avoid Slowloris attacks.
+			WriteTimeout: time.Second * 15,
+			ReadTimeout:  time.Second * 15,
+			IdleTimeout:  time.Second * 60,
+			Handler:      h,
+		}
+
+		errs := make(chan error, 2)
+		defer close(errs)
 
 		go func() {
-			logger.Log("transport", "HTTP", "addr", *httpAddr)
-			errs <- http.ListenAndServe(*httpAddr, httpHandler)
+			logger.Log("userTransport", "http", "addr", *httpAddr)
+			errs <- server.ListenAndServe()
 		}()
 
-		logger.Log("exit", <-errs)
+		stopSignals := make(chan os.Signal, 1)
+		defer close(stopSignals)
+
+		go func() {
+			signal.Notify(stopSignals, syscall.SIGINT, syscall.SIGTERM)
+			errs <- fmt.Errorf("%s", <-stopSignals)
+		}()
+
+		logger.Log("terminated", <-errs)
+
+		wait := time.Second * 15
+		ctx, cancel := context.WithTimeout(context.Background(), wait)
+		defer cancel()
+
+		logger.Log("server status", "shutdown", "err", server.Shutdown(ctx))
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(serverCmd)
-}
-
-func listenStopSignal() func(errs chan error) {
-	return func(errs chan error) {
-		c := make(chan os.Signal, 1)
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-		errs <- fmt.Errorf("%s", <-c)
-	}
 }

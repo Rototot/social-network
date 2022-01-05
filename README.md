@@ -21,6 +21,38 @@
 * Страницы с анкетой.
 
 ## Структура проекта
+```
+├── backend
+│   ├── bin
+│   ├── cmd
+│   ├── db
+│   │   └── migrations
+│   ├── pkg
+│   │   ├── common
+│   │   ├── config
+│   │   ├── ping
+│   │   └── users
+│   ├── scripts
+│   └── tests
+│       ├── e2e
+│       ├── factories
+│       ├── fixtures
+│       └── utils
+└── frontend
+    ├── build
+    │   └── static
+    ├── public
+    └── src
+```
+#### Backend
+Используется [go-kit](https://gokit.io/)
+* Golang
+* MySQL
+* Redis
+
+#### Frontend
+* React
+* Nginx
 
 ### Install
 
@@ -34,6 +66,7 @@ make start
 ### Run
 
 ### Development
+
 
 #### Create Migrations
 
@@ -58,4 +91,5 @@ go install golang.org/x/tools/cmd/stringer
 go install github.com/golang/mock/mockgen@v1.6.0
 go install github.com/golang-migrate/migrate/v4
 go install github.com/joho/godotenv/cmd/godotenv
+go get github.com/mailru/easyjson && go install github.com/mailru/easyjson/...@latest
 ```

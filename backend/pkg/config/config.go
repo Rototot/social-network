@@ -14,6 +14,7 @@ type AppConfig struct {
 
 	RedisHost string `mapstructure:"REDIS_HOST"`
 	RedisPort string `mapstructure:"REDIS_PORT"`
+	RedisDB   int    `mapstructure:"REDIS_DB"`
 }
 
 func NewAppConfig() *AppConfig {

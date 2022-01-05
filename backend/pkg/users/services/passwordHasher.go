@@ -26,5 +26,5 @@ func (p PasswordHasher) Hash(value string) (users.HashedPassword, error) {
 		return "", err
 	}
 
-	return users.HashedPassword(fmt.Sprintf("sha512:\t\t%x\n", hasher.Sum(nil))), nil
+	return users.HashedPassword(fmt.Sprintf("%x", hasher.Sum(nil))), nil
 }

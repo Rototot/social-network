@@ -1,5 +1,7 @@
 package endpoints
 
+//go:generate easyjson -all $GOFILE
+
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
@@ -7,16 +9,17 @@ import (
 )
 
 type PostLoginRequest struct {
-	services.LoginParams
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type PostLoginResponse struct {
-	Token services.SessionId
+	Token services.SessionId `json:"token"`
 }
 
 func MakePostLoginEndpoint(service services.LoginServiceInterface) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(PostLoginRequest)
+		req := request.(*PostLoginRequest)
 
 		token, err := service.Login(ctx, services.LoginParams{
 			Email:    req.Email,

@@ -1,5 +1,7 @@
 package endpoints
 
+//go:generate easyjson -all $GOFILE
+
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
@@ -12,7 +14,7 @@ type PostLogoutRequest struct {
 
 func MakePostLogoutEndpoint(service services.LogoutServiceInterface) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(PostLogoutRequest)
+		req := request.(*PostLogoutRequest)
 
 		err := service.Logout(ctx, req.SessionId)
 

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/go-kit/kit/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
@@ -61,4 +62,17 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		_, _ = fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
+
+	rootCmd.Context()
+}
+
+func InitLogger() (logger log.Logger, httpLogger log.Logger) {
+
+	logger = log.NewLogfmtLogger(os.Stderr)
+	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
+	logger = log.With(logger, "caller", log.DefaultCaller)
+
+	httpLogger = log.With(logger, "component", "http")
+
+	return
 }

@@ -7,7 +7,7 @@ type RequestResetPasswordParams struct {
 }
 
 type ResetPasswordParams struct {
-	newPassword string
+	NewPassword string
 }
 
 type PasswordRecoveryInterface interface {
