@@ -5,7 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"os"
-	"social-network/pkg/config"
+	"social-network/pkg/common/infrastructure/configurator"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -20,10 +20,10 @@ var migrateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var logger, _ = InitLogger()
 
-		appConfig := config.NewAppConfig()
+		appConfig := configurator.NewAppConfig()
 
 		//"user:password@tcp(host:port)/dbname?multiStatements=true"
-		db, err := config.OpenMysqlConnection(appConfig)
+		db, err := configurator.OpenMysqlConnection(appConfig)
 		if err != nil {
 			logger.Log(err)
 			os.Exit(1)

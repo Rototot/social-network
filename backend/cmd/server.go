@@ -9,11 +9,11 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"social-network/pkg/config"
+	"social-network/pkg/common/infrastructure/configurator"
 	"social-network/pkg/ping"
 	userEndpoints "social-network/pkg/users/endpoints"
-	"social-network/pkg/users/persistance/mysql"
-	redis2 "social-network/pkg/users/persistance/redis"
+	"social-network/pkg/users/infrastructure/persistance/mysql"
+	redis2 "social-network/pkg/users/infrastructure/persistance/redis"
 	userServices "social-network/pkg/users/services"
 	userTransport "social-network/pkg/users/transport"
 	"syscall"
@@ -41,10 +41,10 @@ var serverCmd = &cobra.Command{
 		var logger, httpLogger = InitLogger()
 
 		// init infra components
-		var appConfig = config.NewAppConfig()
+		var appConfig = configurator.NewAppConfig()
 		var conn *sql.DB
 		{
-			db, err := config.OpenMysqlConnection(appConfig)
+			db, err := configurator.OpenMysqlConnection(appConfig)
 			if err != nil {
 				logger.Log("database", err)
 				os.Exit(1)
@@ -55,7 +55,7 @@ var serverCmd = &cobra.Command{
 
 		var redisClient *redis.Client
 		{
-			client, err := config.OpenRedisConnection(appConfig)
+			client, err := configurator.OpenRedisConnection(appConfig)
 			if err != nil {
 				logger.Log("redis", err)
 				os.Exit(1)
