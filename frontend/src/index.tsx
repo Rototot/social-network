@@ -5,11 +5,35 @@ import App from './App';
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import {createTheme} from "@mui/material/styles";
+import { red } from '@mui/material/colors';
+
+// A custom theme for this app
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#556cd6',
+        },
+        secondary: {
+            main: '#19857b',
+        },
+        error: {
+            main: red.A400,
+        },
+    },
+});
+
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
+        <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </ThemeProvider>,
     </React.StrictMode>,
     document.getElementById('root')
 );

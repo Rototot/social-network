@@ -11,22 +11,15 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 const theme = createTheme();
+
+enum Gender {
+    Male = 1,
+    Female = 2,
+}
 
 export default function SignUp() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,10 +32,16 @@ export default function SignUp() {
         });
     };
 
+
+    const [gender, setGender] = React.useState();
+    const handleGenderChange = (event: any) => {
+        setGender(event.target.value);
+    };
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
+                <CssBaseline/>
                 <Box
                     sx={{
                         marginTop: 8,
@@ -51,15 +50,15 @@ export default function SignUp() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                        <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" onSubmit={handleSubmit} sx={{mt: 3}}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={23}>
                                 <TextField
                                     autoComplete="given-name"
                                     name="firstName"
@@ -70,7 +69,7 @@ export default function SignUp() {
                                     autoFocus
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={12}>
                                 <TextField
                                     required
                                     fullWidth
@@ -80,6 +79,56 @@ export default function SignUp() {
                                     autoComplete="family-name"
                                 />
                             </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="given-age"
+                                    name="age"
+                                    required
+                                    fullWidth
+                                    id="age"
+                                    label="Age"
+                                    type="number"
+                                    inputProps={{min: 1, max: 200}}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="gender-label">Gender</InputLabel>
+                                    <Select
+                                        required
+                                        labelId="gender-label"
+                                        id="gender"
+                                        value={gender}
+                                        label="Gender*"
+                                        onChange={handleGenderChange}
+                                    >
+                                        <MenuItem>None</MenuItem>
+                                        <MenuItem value={Gender.Male}>Male</MenuItem>
+                                        <MenuItem value={Gender.Female}>Female</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="city"
+                                    label="City"
+                                    name="city"
+                                    autoComplete="city-name"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="interests"
+                                    label="Interests"
+                                    name="interests"
+                                    autoComplete="interests"
+                                />
+                            </Grid>
+
                             <Grid item xs={12}>
                                 <TextField
                                     required
@@ -103,7 +152,7 @@ export default function SignUp() {
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                                    control={<Checkbox value="allowExtraEmails" color="primary"/>}
                                     label="I want to receive inspiration, marketing promotions and updates via email."
                                 />
                             </Grid>
@@ -112,20 +161,19 @@ export default function SignUp() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                         >
                             Sign Up
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/signin" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
             </Container>
         </ThemeProvider>
     );
