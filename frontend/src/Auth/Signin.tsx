@@ -10,18 +10,40 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useUserToken} from "./RequireAuth";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
+import {httpApiJson} from "../Common/http";
+import {HeaderKey} from "./constants"
+
 
 const theme = createTheme();
 
 export default function SignIn() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const {token, setToken} = useUserToken()
+    const navigate = useNavigate()
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
+
+        const res: Response = await httpApiJson(`/api/signin`, {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(data)),
+        })
+
         console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+            data: data,
         });
+
+        if (res.status === 200) {
+            console.log({
+                headers: res.headers
+            });
+
+            setToken(res.headers.get(HeaderKey.SetAuthToken) || "")
+
+            navigate("/", {replace: true});
+        }
     };
 
     return (
@@ -73,7 +95,7 @@ export default function SignIn() {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link href="/signup" variant="body2">
+                                <Link component={RouterLink} to="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

@@ -7,7 +7,7 @@ import Layout from "./Layout/Layout";
 import UserCard from "./UserCard/UserCard";
 import Home from "./Home/Home";
 import {NotFound} from "./Error/4xx";
-import {RequireAuth, useAuth} from "./Auth/RequireAuth";
+import {RequireAuth} from "./Auth/RequireAuth";
 
 function App() {
     return (

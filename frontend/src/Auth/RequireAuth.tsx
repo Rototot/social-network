@@ -1,18 +1,21 @@
-import {useLocation, Navigate} from "react-router-dom";
-import React from "react";
+import {Navigate, useLocation} from "react-router-dom";
+import React, {useState} from "react";
+import {RouteUrl} from "../Routes/routes";
 
 
 let AuthContext = React.createContext<AuthContextType>(null!);
 
 export interface AuthContextType {
+    token: string
     user: {
         id: number
     };
-    signin: (user: string, callback: VoidFunction) => void;
-    signout: (callback: VoidFunction) => void;
 }
+
 //
-// function AuthProvider({ children }: { children: React.ReactNode }) {
+// export const useAuth = () => React.useContext(AuthContext)
+//
+// export function AuthProvider({ children }: { children: React.ReactNode }) {
 //     let [user, setUser] = React.useState<any>(null);
 //
 //     let signin = (newUser: string, callback: VoidFunction) => {
@@ -35,28 +38,63 @@ export interface AuthContextType {
 // }
 
 
-export function RequireAuth({ children }: { children: JSX.Element }) {
-    let auth = useAuth();
+export function RequireAuth({children}: { children: JSX.Element }) {
+    const {token, setToken} = useUserToken();
     let location = useLocation();
 
     console.log("RequireAuth")
 
-    if (!auth || !auth.user) {
+    if (token) {
         console.log("!auth.user")
 
-        // Redirect them to the /login page, but save the current location they were
-        // trying to go to when they were redirected. This allows us to send them
-        // along to that page after they login, which is a nicer user experience
-        // than dropping them off on the home page.
-        return <Navigate to="/signin" state={{ from: location }} replace />;
+        return <Navigate to={RouteUrl.Signin} state={{from: location}} replace/>;
     }
-    console.log(children)
-    console.log("children")
-
 
     return children;
 }
 
-export function useAuth() : AuthContextType {
-    return React.useContext(AuthContext);
+
+export function useUserToken() {
+    const storageKeyName = "token";
+    const getToken = () => {
+        return sessionStorage.getItem(storageKeyName)
+    }
+    const [token, setToken] = useState(getToken());
+    const repository = sessionRepository();
+
+
+    const saveToken = (userToken: string) => {
+        if (!userToken) {
+            repository.remove()
+        } else {
+            repository.add(userToken)
+        }
+
+        setToken(userToken);
+    };
+
+    return {
+        token,
+        setToken: saveToken,
+    }
 }
+
+interface SessionRepository {
+    add(token: string): void
+
+    remove(): void
+}
+
+export function sessionRepository(): SessionRepository {
+    const storageKeyName = "token";
+
+    return {
+        add(token: string): void {
+            return sessionStorage.setItem(storageKeyName, token);
+        },
+        remove() {
+            return sessionStorage.removeItem(storageKeyName);
+        }
+    }
+}
+

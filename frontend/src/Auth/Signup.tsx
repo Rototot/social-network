@@ -13,6 +13,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
+import {useUserToken} from "./RequireAuth";
+import {HeaderKey} from "./constants";
+import {httpApiJson} from "../Common/http";
+import {RouteUrl} from "../Routes/routes";
 
 const theme = createTheme();
 
@@ -22,14 +27,27 @@ enum Gender {
 }
 
 export default function SignUp() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const {token, setToken} = useUserToken()
+    const navigate = useNavigate()
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
+
+        const res = await httpApiJson(`/api/signup`, {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(data)),
+        })
+
         console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+            data: data,
         });
+
+        if (res.status === 200) {
+            setToken(res.headers.get(HeaderKey.SetAuthToken) || "")
+
+            navigate(RouteUrl.Signin, {replace: true});
+        }
     };
 
 
@@ -167,7 +185,7 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/signin" variant="body2">
+                                <Link component={RouterLink} to="/signin" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>
