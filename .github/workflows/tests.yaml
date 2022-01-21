@@ -2,14 +2,14 @@ name: Tests
 on:
   - push
 jobs:
-  tests:
-    name: tests
+  tests-backend:
+    name: tests:backend
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
-      - name: Check build
+      - name: Check backend build
         run: |
           cd backend
           go mod download
