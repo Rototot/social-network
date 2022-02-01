@@ -21,8 +21,8 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-#          registry: ${{ secrets.DOCKER_REGISTRY_URL }}
-          registry: registry.digitalocean.com
+          registry: ${{ secrets.DOCKER_REGISTRY_URL }}
+#          registry: registry.digitalocean.com
           username: ${{ secrets.DOCKER_ACCESS_TOKEN }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
@@ -39,6 +39,6 @@ jobs:
         with:
           context: ./backend
           push: true
-#          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/api-app:${{ github.ref_name }}
-          tags: registry.digitalocean.com/rototot/social-network/api-app:${{ github.ref_name }}
+          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/api-app:${{ github.ref_name }}
+#          tags: registry.digitalocean.com/rototot/social-network/api-app:${{ github.ref_name }}
 
