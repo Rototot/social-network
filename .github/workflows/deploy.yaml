@@ -26,17 +26,19 @@ jobs:
           username: ${{ secrets.DOCKER_ACCESS_TOKEN }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Build and push frontend
-        uses: docker/build-push-action@v2
-        with:
-          context: ./frontend
-          push: true
-#          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/frontend-app:${{ github.ref_name }}
-          tags: registry.digitalocean.com/rototot/social-network/frontend-app:${{ github.ref_name }}
-#      - name: Build and push backend
+#      - name: Build and push frontend
 #        uses: docker/build-push-action@v2
 #        with:
-#          context: ./backend
+#          context: ./frontend
+#          file: ./frontend/Dockerfile
 #          push: true
+##          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/frontend-app:${{ github.ref_name }}
+#          tags: registry.digitalocean.com/rototot/social-network/frontend-app:${{ github.ref_name }}
+      - name: Build and push backend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend
+          push: true
 #          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/api-app:${{ github.ref_name }}
+          tags: registry.digitalocean.com/rototot/social-network/api-app:${{ github.ref_name }}
 
