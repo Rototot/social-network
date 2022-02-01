@@ -17,19 +17,19 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          registry: ${{ secrets.DIGITALOCEAN_REGISTRY_URL }}
-          username: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          password: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          registry: ${{ secrets.DOCKER_REGISTRY_URL }}
+          username: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Build and push frontend
         uses: docker/build-push-action@v2
         with:
           context: ./frontend
           push: true
-          tags: ${{ secrets.REGISTRY_NAME }}/social-network/frontend-app:${{ env.GITHUB_REF_NAME }}
+          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/frontend-app:${{ env.GITHUB_REF_NAME }}
       - name: Build and push backend
         uses: docker/build-push-action@v2
         with:
           context: ./backend
           push: true
-          tags: ${{ secrets.REGISTRY_NAME }}/social-network/api-app:${{ env.GITHUB_REF_NAME }}
+          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/api-app:${{ env.GITHUB_REF_NAME }}
 
