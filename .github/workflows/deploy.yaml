@@ -4,12 +4,16 @@ on:
     branches:
       - main
       - deploy
+env:
+  DOCKER_PROJECT: "social-network"
+  DOCKER_APP_NAME_FRONTEND: "frontend"
+  DOCKER_APP_NAME_API: "api"
+  DOCKER_TAG: ${{ github.ref_name }}
+
 jobs:
   publish-fronted:
     name: docker:publish
     runs-on: ubuntu-20.04
-    env:
-      DOCKER_TAG: ${{ github.ref_name }}
     steps:
       - name: Calc docker tag name
         run: |
@@ -37,18 +41,18 @@ jobs:
           username: ${{ secrets.DOCKER_ACCESS_TOKEN }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-#      - name: Build and push frontend
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: ./frontend
-#          push: true
-#          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/frontend:${{ env.DOCKER_TAG }}
+      - name: Build and push frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ secrets.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_PROJECT }}/${{ env.DOCKER_APP_NAME_FRONTEND }}:${{ env.DOCKER_TAG }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v2
         with:
           context: ./backend
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY_NAME }}/social-network/api:${{ env.DOCKER_TAG }}
+          tags: ${{ secrets.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_PROJECT }}/${{ env.DOCKER_APP_NAME_API }}:${{ env.DOCKER_TAG }}
 #          tags: registry.digitalocean.com/rototot/social-network/api:${{ env.DOCKER_TAG }}
 
