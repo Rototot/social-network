@@ -8,8 +8,6 @@ jobs:
   publish-fronted:
     name: docker:publish
     runs-on: ubuntu-20.04
-    environment:
-      DOCKER_IMAGE_TAG:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
