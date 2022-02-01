@@ -49,5 +49,6 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/api:${{ env.DOCKER_TAG }}
+#          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/social-network/api:${{ env.DOCKER_TAG }}
+          tags: registry.digitalocean.com/rototot/social-network/api:${{ env.DOCKER_TAG }}
 
