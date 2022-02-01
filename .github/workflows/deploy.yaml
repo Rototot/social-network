@@ -39,6 +39,7 @@ jobs:
         run: |
           DOCKER_TAG=${{ github.ref_name }}
           if [[ '${{ github.ref_name }}' == 'main' ]]; then DOCKER_TAG='latest' fi 
+          if [[ '${{ github.ref_name }}' == 'deploy' ]]; then DOCKER_TAG='latest' fi 
           echo $DOCKER_TAG
 
       - name: Print docker tag name
