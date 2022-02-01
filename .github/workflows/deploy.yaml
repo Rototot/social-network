@@ -15,7 +15,7 @@ jobs:
     name: docker:publish
     runs-on: ubuntu-20.04
     steps:
-      - name: Calc docker tag name
+      - name: Set docker tag as latest for default branch
         run: |
           if [[ '${{ github.ref_name }}' == 'main' ]]; then DOCKER_TAG='latest'; fi 
           if [[ '${{ github.ref_name }}' == 'deploy' ]]; then DOCKER_TAG='latest'; fi 
@@ -46,13 +46,14 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_PROJECT }}/${{ env.DOCKER_APP_NAME_FRONTEND }}:${{ env.DOCKER_TAG }}
+          tags: registry.digitalocean.com/rototot/${{ env.DOCKER_PROJECT }}/${{ env.DOCKER_APP_NAME_FRONTEND }}:${{ env.DOCKER_TAG }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v2
         with:
           context: ./backend
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_PROJECT }}/${{ env.DOCKER_APP_NAME_API }}:${{ env.DOCKER_TAG }}
+#          tags: ${{ secrets.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_PROJECT }}/${{ env.DOCKER_APP_NAME_API }}:${{ env.DOCKER_TAG }}
+          tags:  registry.digitalocean.com/rototot/${{ env.DOCKER_PROJECT }}/${{ env.DOCKER_APP_NAME_API }}:${{ env.DOCKER_TAG }}
 #          tags: registry.digitalocean.com/rototot/social-network/api:${{ env.DOCKER_TAG }}
 

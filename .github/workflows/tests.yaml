@@ -1,8 +1,8 @@
 name: Tests
 on:
   push:
-    branches-ignore:
-      - deploy
+    tags-ignore:
+      - "*"
 jobs:
   tests-backend:
     name: tests:backend
