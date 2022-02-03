@@ -4,7 +4,6 @@ on:
     secrets:
       DOCKER_ACCESS_TOKEN:
         required: true
-        type: string
 
 env:
   DOCKER_REGISTRY_URL: registry.digitalocean.com
