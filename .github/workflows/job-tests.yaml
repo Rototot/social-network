@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
+        with:
+          working-directory: ./backend
       - name: Check backend build
         run: |
           cd backend

@@ -41,8 +41,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ${{ env.DOCKER_REGISTRY_URL }}
-          username: ${{ inputs.access_token }}
-          password: ${{ inputs.access_token }}
+          username: ${{ secrets.access_token }}
+          password: ${{ secrets.access_token }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v2
