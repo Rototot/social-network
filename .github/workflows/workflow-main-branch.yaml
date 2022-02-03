@@ -14,3 +14,5 @@ jobs:
     uses: ./.github/workflows/job-docker-build-and-publish.yaml
     secrets:
       access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+    needs:
+      - tests
