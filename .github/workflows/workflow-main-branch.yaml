@@ -8,9 +8,9 @@ on:
 
 jobs:
   tests:
-    uses: ./.github/workflows/tests.yaml
+    uses: ./.github/workflows/job-tests.yaml
 
   image-publish:
-    uses: ./.github/workflows/docker-build-and-publish.yaml
+    uses: ./.github/workflows/job-docker-build-and-publish.yaml
     with:
       access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
