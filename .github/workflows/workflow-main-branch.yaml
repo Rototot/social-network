@@ -12,3 +12,5 @@ jobs:
 
   image-publish:
     uses: ./.github/workflows/docker-build-and-publish.yaml
+    with:
+      access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
