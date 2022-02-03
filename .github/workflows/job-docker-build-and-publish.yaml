@@ -1,4 +1,4 @@
-name: Deploy
+name: Publish docker image
 on:
   workflow_call:
     secrets:
