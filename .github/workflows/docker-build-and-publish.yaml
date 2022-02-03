@@ -1,9 +1,6 @@
 name: Deploy
 on:
-  push:
-    branches:
-      - main
-      - deploy
+  workflow_call:
 env:
   DOCKER_REGISTRY_URL: registry.digitalocean.com
   DOCKER_REGISTRY_NAME: registry.digitalocean.com/rototot
