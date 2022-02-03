@@ -37,7 +37,7 @@ func easyjson9af65625DecodeSocialNetworkPkgUsersEndpoints(in *jlexer.Lexer, out 
 			continue
 		}
 		switch key {
-		case "Token":
+		case "token":
 			out.Token = services.SessionId(in.String())
 		default:
 			in.SkipRecursive()
@@ -54,7 +54,7 @@ func easyjson9af65625EncodeSocialNetworkPkgUsersEndpoints(out *jwriter.Writer, i
 	first := true
 	_ = first
 	{
-		const prefix string = ",\"Token\":"
+		const prefix string = ",\"token\":"
 		out.RawString(prefix[1:])
 		out.String(string(in.Token))
 	}

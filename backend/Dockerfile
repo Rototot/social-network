@@ -6,7 +6,12 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . ./
+
+#RUN apk add --no-cache git
+
 RUN CGO_ENABLED=0 GOOS=linux \
+    && go generate generate.go \
+    && go generate ./pkg/... \
     && go build -o ./bin/social-network \
     && chmod +x ./bin/social-network
 
@@ -16,13 +21,10 @@ FROM alpine:3.15
 
 WORKDIR /app
 
-RUN mkdir -p ./logs/supervisor
-
 COPY --from=go_builder /app/bin/social-network ./bin/
 
 CMD ["/app/bin/social-network", "server"]
 
 # 8000 = API
-# 80 = Nginx
-EXPOSE 8000 80
+EXPOSE 8000
 

@@ -17,7 +17,7 @@ const _Gender_name = "MaleFemale"
 var _Gender_index = [...]uint8{0, 4, 10}
 
 func (i Gender) String() string {
-	if i < 0 || i >= Gender(len(_Gender_index)-1) {
+	if i >= Gender(len(_Gender_index)-1) {
 		return "Gender(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
 	return _Gender_name[_Gender_index[i]:_Gender_index[i+1]]

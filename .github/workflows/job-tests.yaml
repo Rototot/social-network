@@ -7,9 +7,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-go@v2
         with:
           go-version: '^1.17.1' # The Go version to download (if necessary) and use.
+
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         continue-on-error: true
@@ -33,10 +35,12 @@ jobs:
           go mod download
           go generate ./...
           go build -v ./...
+
       - name: Unit Tests
         run: |
           cd backend
           ./scripts/run-test-units.sh
+
       - name: E2E Tests
         run: |
           cd backend
