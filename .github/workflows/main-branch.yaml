@@ -8,7 +8,7 @@ on:
 
 jobs:
   tests:
-    uses: ./.github/actions/tests.yaml
+    uses: ./.github/workflows/tests.yaml
 
   image-publish:
-    uses: ./.github/actions/docker-build-and-publish.yaml
+    uses: ./.github/workflows/docker-build-and-publish.yaml
