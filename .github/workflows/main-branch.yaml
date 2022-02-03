@@ -1,0 +1,14 @@
+name: Main Branch Flow
+on:
+  push:
+    branches:
+      - main
+      - deploy
+
+
+jobs:
+  tests:
+    uses: ./.github/actions/tests.yaml
+
+  image-publish:
+    uses: ./.github/actions/docker-build-and-publish.yaml
