@@ -7,7 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"social-network/pkg/users"
-	"social-network/pkg/users/persistance/mysql"
+	"social-network/pkg/users/infrastructure/persistance/mysql"
 )
 import "github.com/bluele/factory-go/factory"
 

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"os"
-	"social-network/pkg/config"
+	"social-network/pkg/common/infrastructure/configurator"
 	"testing"
 )
 
-func NewTestConfiguration(_ *testing.T) *config.AppConfig {
+func NewTestConfiguration(_ *testing.T) *configurator.AppConfig {
 	//
 	//err := godotenv.Load(fmt.Sprintf("%s/.env"), cwd)
 	//if err != nil {
@@ -26,5 +26,5 @@ func NewTestConfiguration(_ *testing.T) *config.AppConfig {
 		_, _ = fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
 
-	return config.NewAppConfig()
+	return configurator.NewAppConfig()
 }
