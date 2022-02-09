@@ -31,6 +31,7 @@ jobs:
       - run: |
           PWD=$(pwd)
           cd ~/.kube && kubectl --kubeconfig="k8s-1-21-9-do-0-ams3-1644436125493-kubeconfig.yaml" get nodes
+          cd $PWD
           helm upgrade --install \
                --set image.tag="${{ github.ref_name }}" \
                --wait api backend
