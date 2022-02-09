@@ -23,11 +23,11 @@ jobs:
       - uses: azure/setup-helm@v1
 #        with:
 #          version: '<version>' # default is latest stable
-        id: install
+#        id: install
       - uses: azure/setup-kubectl@v2.0
         with:
           version: '<version>' # default is latest stable
-        id: install
+#        id: install
       - run: |
           PWD=$(pwd)
           cd ~/.kube && kubectl --kubeconfig="k8s-1-21-9-do-0-ams3-1644436125493-kubeconfig.yaml" get nodes
