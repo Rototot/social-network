@@ -35,7 +35,8 @@ jobs:
       - run: |
           doctl kubernetes cluster kubeconfig save a9aa5e9b-020b-49b1-adae-fe1cfcc61f2c
           helm upgrade --install \
-               --set image.tag="${{ github.ref_name }}" \
+#               --set image.tag="${{ github.ref_name }}" \
+#               --set image.tag="${{ github.ref_name }}" \
                --wait api ./.helm/backend
 #    needs:
 #      - image-publish

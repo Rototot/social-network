@@ -19,6 +19,7 @@ imageCredentials:
   password: ""
 
 
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
