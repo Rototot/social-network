@@ -11,15 +11,6 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imageCredentials:
-  registry: registry.digitalocean.com/rototot
-#  set when install
-  username: ""
-#  set when install
-  password: ""
-
-
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
