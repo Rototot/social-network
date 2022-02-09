@@ -31,7 +31,7 @@ jobs:
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
-          token: "${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - run: |
           doctl kubernetes cluster kubeconfig save a9aa5e9b-020b-49b1-adae-fe1cfcc61f2c
 #               --set image.tag="${{ github.ref_name }}" \
