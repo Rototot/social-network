@@ -28,15 +28,15 @@ jobs:
 #        with:
 #          version: '<version>' # default is latest stable
 #        id: install
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
       - run: |
           doctl kubernetes cluster kubeconfig save a9aa5e9b-020b-49b1-adae-fe1cfcc61f2c
-          helm upgrade --install \
 #               --set image.tag="${{ github.ref_name }}" \
-#               --set image.tag="${{ github.ref_name }}" \
-               --wait api ./.helm/backend
+          helm upgrade --install --wait api ./.helm/backend
 #    needs:
 #      - image-publish
