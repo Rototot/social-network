@@ -16,3 +16,22 @@ jobs:
       access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
     needs:
       - tests
+  deployment:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/setup-helm@v1
+#        with:
+#          version: '<version>' # default is latest stable
+        id: install
+      - uses: azure/setup-kubectl@v2.0
+        with:
+          version: '<version>' # default is latest stable
+        id: install
+      - run: |
+
+          helm upgrade --install \
+               --set image.tag="${{ github.ref_name }}" \
+               --wait api backend
+    needs:
+      - image-publish

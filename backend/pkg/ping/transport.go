@@ -9,7 +9,7 @@ import (
 	commonHttp "social-network/pkg/common/transport/http"
 )
 
-func MakeUserHttpHandler(
+func MakePingHttpHandler(
 	endpoints Endpoints,
 	logger log.Logger,
 ) http.Handler {

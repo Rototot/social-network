@@ -102,7 +102,7 @@ var serverCmd = &cobra.Command{
 				)
 			}
 
-			pingHandler = ping.MakeUserHttpHandler(
+			pingHandler = ping.MakePingHttpHandler(
 				ping.MakeEndpoints(),
 				logger,
 			)
