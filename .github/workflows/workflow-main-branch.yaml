@@ -10,10 +10,10 @@ jobs:
 #  tests:
 #    uses: ./.github/workflows/job-tests.yaml
 
-  image-publish:
-    uses: ./.github/workflows/job-docker-build-and-publish.yaml
-    secrets:
-      access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+#  image-publish:
+#    uses: ./.github/workflows/job-docker-build-and-publish.yaml
+#    secrets:
+#      access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 #    needs:
 #      - tests
   deployment:
@@ -36,6 +36,6 @@ jobs:
           doctl kubernetes cluster kubeconfig save a9aa5e9b-020b-49b1-adae-fe1cfcc61f2c
           helm upgrade --install \
                --set image.tag="${{ github.ref_name }}" \
-               --wait api backend
-    needs:
-      - image-publish
+               --wait api ./.helm/backend
+#    needs:
+#      - image-publish
