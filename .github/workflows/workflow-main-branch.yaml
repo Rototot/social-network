@@ -10,12 +10,12 @@ jobs:
 #  tests:
 #    uses: ./.github/workflows/job-tests.yaml
 
-#  image-publish:
-#    uses: ./.github/workflows/job-docker-build-and-publish.yaml
-#    secrets:
-#      access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-#    needs:
-#      - tests
+  image-publish:
+    uses: ./.github/workflows/job-docker-build-and-publish.yaml
+    secrets:
+      access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+    needs:
+      - tests
   deployment:
     runs-on: ubuntu-20.04
     steps:
