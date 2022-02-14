@@ -5,13 +5,15 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY . ./
 
-#RUN apk add --no-cache git
+COPY generate.go  ./
+RUN CGO_ENABLED=0 GOOS=linux \
+    && go generate generate.go
+
+COPY . ./
 
 RUN CGO_ENABLED=0 GOOS=linux \
     && go generate generate.go \
-    && go generate ./pkg/... \
     && go build -o ./bin/social-network \
     && chmod +x ./bin/social-network
 

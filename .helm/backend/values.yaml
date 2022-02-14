@@ -11,7 +11,9 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: rototot
+  - name: do-registry
 nameOverride: ""
 fullnameOverride: ""
 
@@ -84,10 +86,11 @@ affinity: {}
 
 
 envs:
-  #
+  TEST_ENV: TEST_ENV_VALUE
 
 secrets:
-  #
+  TEST_SECRET: TEST_SECRET_VALUE
+
 
 app:
   apiPort: 8000

@@ -22,3 +22,16 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
+
+#dependencies:
+#  - name: redis
+#    version: "16.4.0"
+#    repository: https://charts.bitnami.com/bitnami
+#    import-values:
+#      - architecture=standalone
+#  - name: mysql
+#    version: 8.8.23
+#    repository: https://charts.bitnami.com/bitnami
+#    import-values:
+#      - architecture=standalone
+#      -
