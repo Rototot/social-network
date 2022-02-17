@@ -27,5 +27,13 @@ func MakePingHttpHandler(
 		options...,
 	))
 
+	// alias for /
+	r.Methods("GET", "OPTIONS", "HEAD").Path("/api").Handler(httptransport.NewServer(
+		endpoints.Ping,
+		commonHttp.MakeRequestDecoder(nil),
+		commonHttp.MakeResponseEncoder(nil),
+		options...,
+	))
+
 	return r
 }
