@@ -30,5 +30,7 @@ jobs:
           doctl kubernetes cluster kubeconfig save a9aa5e9b-020b-49b1-adae-fe1cfcc61f2c
           helm upgrade --install --wait api ./.helm/backend \
             --set image.tag=latest
+          helm upgrade --install --wait frontend ./.helm/frontend \
+                      --set image.tag=latest
     needs:
       - image-publish

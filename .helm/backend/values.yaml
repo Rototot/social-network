@@ -50,7 +50,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: chart-example.local
+    - host: social.local
       paths:
         - path: /
           pathType: ImplementationSpecific
@@ -86,7 +86,13 @@ affinity: {}
 
 
 envs:
-  TEST_ENV: TEST_ENV_VALUE
+  REDIS_HOST: redis
+  REDIS_PORT: 6479
+  MYSQL_HOST: mysql
+  MYSQL_DB: social_network
+  MYSQL_USER: social_network
+  MYSQL_PASSWORD: social_network
+  MYSQL_PORT: 3306
 
 secrets:
   TEST_SECRET: TEST_SECRET_VALUE
@@ -94,3 +100,16 @@ secrets:
 
 app:
   apiPort: 8000
+
+
+redis:
+  architecture: standalone
+  auth:
+    enabled: false
+
+mysql:
+  architecture: standalone
+  auth:
+    database: social_network
+    username: social_network
+    password: social_network

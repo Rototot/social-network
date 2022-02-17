@@ -1,0 +1,12 @@
+dependencies:
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 16.4.0
+- name: mysql
+  repository: https://charts.bitnami.com/bitnami
+  version: 8.8.23
+- name: ingress
+  repository: ""
+  version: 0.1.0
+digest: sha256:83de89a02f4484502294e91f8c182cf7c30ca2b9e0247e70201167168335ab39
+generated: "2022-02-18T02:30:35.865231+03:00"
