@@ -21,6 +21,12 @@ RUN CGO_ENABLED=0 GOOS=linux \
 #### MAIN
 FROM alpine:3.15
 
+RUN apk --no-cache add \
+    curl
+
+HEALTHCHECK --interval=30s --timeout=30s \
+    CMD curl -f http://localhost:8000/ || exit 1
+
 WORKDIR /app
 
 COPY --from=go_builder /app/bin/social-network ./bin/
