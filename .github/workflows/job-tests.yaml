@@ -44,7 +44,7 @@ jobs:
       - name: E2E Tests
         run: |
           cd backend
-          cp .env.dist .env
+          cp .env.example .env
           ./scripts/run-test-e2e.sh
 
 
