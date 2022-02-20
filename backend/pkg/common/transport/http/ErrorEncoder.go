@@ -12,7 +12,7 @@ func MakeErrorEncoder(extendsStatusMapper ErrStatusMap) httptransport.ErrorEncod
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(ErrorCodeStatusMapperFunc(err, extendsStatusMapper))
 
-		json.NewEncoder(w).Encode(map[string]interface{}{
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"error": err.Error(),
 		})
 	}

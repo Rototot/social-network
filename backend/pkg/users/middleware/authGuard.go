@@ -7,8 +7,10 @@ import (
 	"social-network/pkg/users/services"
 )
 
-const KeyUserIdKey = "user"
-const KeyAuthTokenKey = "authToken"
+type CtxAuthKey string
+
+const KeyUserIdKey CtxAuthKey = "user"
+const KeyAuthTokenKey CtxAuthKey = "authToken"
 
 func ExtractUserId(ctx context.Context) users.UserID {
 	userId, ok := ctx.Value(KeyUserIdKey).(users.UserID)
@@ -42,7 +44,7 @@ func AuthGuardMiddleware() endpoint.Middleware {
 	}
 }
 
-// AuthGuardMiddleware guard for access only auth users
+// OnlyGuestGuardMiddleware guard for access only auth users
 func OnlyGuestGuardMiddleware() endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (response interface{}, err error) {

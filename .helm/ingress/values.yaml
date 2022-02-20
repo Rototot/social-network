@@ -1,0 +1,29 @@
+# Default values for ingress.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+ingress:
+  enabled: enable
+  className: ""
+  annotations:
+     kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+
+  hosts:
+    - paths:
+        - path: /api
+          pathType: ImplementationSpecific
+          service:
+            name: api-backend
+            port: 8000
+        - path: /
+          pathType: ImplementationSpecific
+          service:
+            name: frontend
+            port: 80
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local

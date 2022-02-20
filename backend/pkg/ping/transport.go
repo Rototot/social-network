@@ -9,7 +9,7 @@ import (
 	commonHttp "social-network/pkg/common/transport/http"
 )
 
-func MakeUserHttpHandler(
+func MakePingHttpHandler(
 	endpoints Endpoints,
 	logger log.Logger,
 ) http.Handler {
@@ -21,6 +21,14 @@ func MakeUserHttpHandler(
 	}
 
 	r.Methods("GET", "OPTIONS", "HEAD").Path("/").Handler(httptransport.NewServer(
+		endpoints.Ping,
+		commonHttp.MakeRequestDecoder(nil),
+		commonHttp.MakeResponseEncoder(nil),
+		options...,
+	))
+
+	// alias for /
+	r.Methods("GET", "OPTIONS", "HEAD").Path("/api").Handler(httptransport.NewServer(
 		endpoints.Ping,
 		commonHttp.MakeRequestDecoder(nil),
 		commonHttp.MakeResponseEncoder(nil),

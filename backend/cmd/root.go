@@ -66,13 +66,13 @@ func initConfig() {
 	rootCmd.Context()
 }
 
-func InitLogger() (logger log.Logger, httpLogger log.Logger) {
+func InitLogger() (log.Logger, log.Logger) {
 
-	logger = log.NewLogfmtLogger(os.Stderr)
+	logger := log.NewJSONLogger(os.Stdout)
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 	logger = log.With(logger, "caller", log.DefaultCaller)
 
-	httpLogger = log.With(logger, "component", "http")
+	httpLogger := log.With(logger, "component", "http")
 
-	return
+	return logger, httpLogger
 }

@@ -24,6 +24,7 @@ func NewSessionRepository(client *redis.Client) *SessionRepository {
 }
 
 func (r *SessionRepository) Add(ctx context.Context, id users.UserID, expire time.Duration) (services.SessionId, error) {
+	// todo добавить сложности генерации сессии
 	session, err := r.generateSession(id)
 	if err != nil {
 		return "", err

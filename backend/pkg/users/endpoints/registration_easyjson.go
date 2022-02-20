@@ -56,7 +56,7 @@ func easyjsonCec9433bEncodeSocialNetworkPkgUsersEndpoints(out *jwriter.Writer, i
 	{
 		const prefix string = ",\"Id\":"
 		out.RawString(prefix[1:])
-		out.Int64(int64(in.Id))
+		out.Raw((in.Id).MarshalJSON())
 	}
 	out.RawByte('}')
 }
@@ -112,7 +112,7 @@ func easyjsonCec9433bDecodeSocialNetworkPkgUsersEndpoints1(in *jlexer.Lexer, out
 		case "age":
 			out.Age = int8(in.Int8())
 		case "gender":
-			out.Gender = users.Gender(in.Int8())
+			out.Gender = users.Gender(in.Uint8())
 		case "city":
 			out.City = string(in.String())
 		case "interests":
@@ -175,7 +175,7 @@ func easyjsonCec9433bEncodeSocialNetworkPkgUsersEndpoints1(out *jwriter.Writer, 
 	{
 		const prefix string = ",\"gender\":"
 		out.RawString(prefix)
-		out.Int8(int8(in.Gender))
+		out.Uint8(uint8(in.Gender))
 	}
 	{
 		const prefix string = ",\"city\":"

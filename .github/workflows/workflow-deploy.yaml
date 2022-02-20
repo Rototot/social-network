@@ -1,0 +1,46 @@
+name: Main Branch Flow
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+#  tests:
+#    uses: ./.github/workflows/job-tests.yaml
+
+  image-publish:
+    uses: ./.github/workflows/job-docker-build-and-publish.yaml
+    secrets:
+      access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+#    needs:
+#      - tests
+  deployment:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/setup-helm@v1
+      - uses: azure/setup-kubectl@v2.0
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: auth do k8s
+        run: doctl kubernetes cluster kubeconfig save a9aa5e9b-020b-49b1-adae-fe1cfcc61f2c
+      - name: helm dependencies
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm dependency build ./.helm/backend
+      - name: deploy API
+        run:  |
+          helm upgrade --install --wait --wait-for-jobs api ./.helm/backend \
+            --set image.tag=latest \
+            --set env.MYSQL_HOST=api-mysql \
+            --set env.MYSQL_PORT=33060 \
+            --set env.REDIS_HOST=api-redis
+      - name: deploy Frontend
+        run: |
+          helm upgrade --install --wait --wait-for-jobs frontend ./.helm/frontend \
+            --set image.tag=latest
+    needs:
+      - image-publish

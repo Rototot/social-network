@@ -20,7 +20,7 @@ func (suite *ApiTestSuite) SetupSuite() {
 
 }
 
-// TearDownAllSuite after all tests
+// TearDownSuite TearDownAllSuite after all tests
 func (suite *ApiTestSuite) TearDownSuite() {
 	defer suite.Conn.Close()
 }

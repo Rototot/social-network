@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"social-network/pkg/common/infrastructure"
 	"social-network/pkg/common/infrastructure/configurator"
 	"social-network/pkg/ping"
 	userEndpoints "social-network/pkg/users/endpoints"
@@ -46,7 +47,7 @@ var serverCmd = &cobra.Command{
 		{
 			db, err := configurator.OpenMysqlConnection(appConfig)
 			if err != nil {
-				logger.Log("database", err)
+				_ = logger.Log(infrastructure.LogDatabase, err)
 				os.Exit(1)
 			}
 			conn = db
@@ -57,7 +58,7 @@ var serverCmd = &cobra.Command{
 		{
 			client, err := configurator.OpenRedisConnection(appConfig)
 			if err != nil {
-				logger.Log("redis", err)
+				_ = logger.Log(infrastructure.LogRedis, err)
 				os.Exit(1)
 			}
 
@@ -87,7 +88,7 @@ var serverCmd = &cobra.Command{
 					sessionStorage,
 				)
 				if err != nil {
-					logger.Log("userEndpoints", err)
+					_ = logger.Log(infrastructure.LogEndpoints, err)
 					os.Exit(1)
 				}
 
@@ -102,7 +103,7 @@ var serverCmd = &cobra.Command{
 				)
 			}
 
-			pingHandler = ping.MakeUserHttpHandler(
+			pingHandler = ping.MakePingHttpHandler(
 				ping.MakeEndpoints(),
 				logger,
 			)
@@ -130,7 +131,7 @@ var serverCmd = &cobra.Command{
 		defer close(errs)
 
 		go func() {
-			logger.Log("userTransport", "http", "addr", *httpAddr)
+			_ = logger.Log(infrastructure.LogTransport, "http", "addr", *httpAddr)
 			errs <- server.ListenAndServe()
 		}()
 
@@ -142,12 +143,12 @@ var serverCmd = &cobra.Command{
 			errs <- fmt.Errorf("%s", <-stopSignals)
 		}()
 
-		logger.Log("terminated", <-errs)
+		_ = logger.Log(infrastructure.LogError, <-errs)
 
 		wait := time.Second * 15
 		ctx, cancel := context.WithTimeout(context.Background(), wait)
 		defer cancel()
 
-		logger.Log("server status", "shutdown", "err", server.Shutdown(ctx))
+		_ = logger.Log(infrastructure.LogServer, "shutdown", infrastructure.LogError, server.Shutdown(ctx))
 	},
 }

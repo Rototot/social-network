@@ -1,0 +1,50 @@
+name: Tests
+on:
+  workflow_call:
+jobs:
+  tests-backend:
+    name: tests:backend
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.17.1' # The Go version to download (if necessary) and use.
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        continue-on-error: true
+        with:
+          working-directory: ./backend
+          skip-go-installation: true
+
+      ## cache
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Build
+        run: |
+          cd backend
+          go mod download
+          go generate ./...
+          go build -v ./...
+
+      - name: Unit Tests
+        run: |
+          cd backend
+          ./scripts/run-test-units.sh
+
+      - name: E2E Tests
+        run: |
+          cd backend
+          cp .env.example .env
+          ./scripts/run-test-e2e.sh
+
+

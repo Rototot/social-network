@@ -4,6 +4,13 @@
 
 ### HW 1: Заготовка для социальной сети
 
+### Возможности
+* Авторизация
+* Регистрация
+* Создание персональной страницы
+* Возможность подружиться
+* Увидеть список друзей
+
 #### Функциональные требования:
 
 * Авторизация по паролю
@@ -79,17 +86,4 @@ make migrate-create
 ```bash
 make build
 make migrate-up
-```
-
-#### Install Dep
-
-#### Backend cli instrument
-
-```
-go install github.com/abice/go-enum
-go install golang.org/x/tools/cmd/stringer
-go install github.com/golang/mock/mockgen@v1.6.0
-go install github.com/golang-migrate/migrate/v4
-go install github.com/joho/godotenv/cmd/godotenv
-go get github.com/mailru/easyjson && go install github.com/mailru/easyjson/...@latest
 ```
