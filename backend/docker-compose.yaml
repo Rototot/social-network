@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: ["/app/bin/social-network", "migrate"]
     env_file:
       - .env
     depends_on:
@@ -11,6 +12,7 @@ services:
       - redis
 #    ports:
 #      - "8000:8000"
+
 
   mysql:
     image: mysql:8

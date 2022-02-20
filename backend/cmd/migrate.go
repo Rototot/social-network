@@ -25,7 +25,7 @@ var migrateCmd = &cobra.Command{
 		//"user:password@tcp(host:port)/dbname?multiStatements=true"
 		db, err := configurator.OpenMysqlConnection(appConfig)
 		if err != nil {
-			logger.Log(err)
+			logger.Log("err", err)
 			os.Exit(1)
 		}
 
@@ -38,7 +38,7 @@ var migrateCmd = &cobra.Command{
 			DatabaseName:    appConfig.MySqlDatabase,
 		})
 		if err != nil {
-			logger.Log(err)
+			logger.Log("err", err.Error())
 			os.Exit(1)
 		}
 
@@ -48,13 +48,14 @@ var migrateCmd = &cobra.Command{
 			driver,
 		)
 		if err != nil {
-			logger.Log(err)
+			logger.Log("err", err)
 			os.Exit(1)
 		}
 
 		err = m.Up()
 		if err != nil && !errors.Is(err, migrate.ErrNoChange) {
-			logger.Log(err)
+			logger.Log("err", err)
+
 			os.Exit(1)
 		}
 

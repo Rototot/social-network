@@ -30,6 +30,7 @@ HEALTHCHECK --interval=30s --timeout=30s \
 WORKDIR /app
 
 COPY --from=go_builder /app/bin/social-network ./bin/
+COPY --from=go_builder /app/db/ ./db/
 
 CMD ["/app/bin/social-network", "server"]
 

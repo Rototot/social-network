@@ -34,11 +34,14 @@ jobs:
           helm dependency build ./.helm/backend
       - name: deploy API
         run:  |
-          helm upgrade --install --wait api ./.helm/backend \
-            --set image.tag=latest
+          helm upgrade --install --wait --wait-for-jobs api ./.helm/backend \
+            --set image.tag=latest \
+            --set env.MYSQL_HOST=api-mysql \
+            --set env.MYSQL_PORT=33060 \
+            --set env.REDIS_HOST=api-redis
       - name: deploy Frontend
         run: |
-          helm upgrade --install --wait frontend ./.helm/frontend \
+          helm upgrade --install --wait --wait-for-jobs frontend ./.helm/frontend \
             --set image.tag=latest
     needs:
       - image-publish

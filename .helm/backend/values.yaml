@@ -89,7 +89,7 @@ envs:
   REDIS_HOST: redis
   REDIS_PORT: 6479
   MYSQL_HOST: mysql
-  MYSQL_DB: social_network
+  MYSQL_DATABASE: social_network
   MYSQL_USER: social_network
   MYSQL_PASSWORD: social_network
   MYSQL_PORT: 3306
