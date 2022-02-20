@@ -21,7 +21,6 @@ jobs:
       - name: Set docker tag as latest for default branch
         run: |
           if [[ '${{ github.ref_name }}' == 'main' ]]; then DOCKER_TAG='latest'; fi 
-          if [[ '${{ github.ref_name }}' == 'deploy' ]]; then DOCKER_TAG='latest'; fi
           echo $DOCKER_TAG
           echo "DOCKER_TAG=${DOCKER_TAG}" >> $GITHUB_ENV
 

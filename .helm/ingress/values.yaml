@@ -6,12 +6,12 @@
 ingress:
   enabled: enable
   className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  annotations:
+     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+
   hosts:
-    - host: social.local
-      paths:
+    - paths:
         - path: /api
           pathType: ImplementationSpecific
           service:

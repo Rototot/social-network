@@ -113,3 +113,4 @@ mysql:
     database: social_network
     username: social_network
     password: social_network
+    rootPassword: root_social_network

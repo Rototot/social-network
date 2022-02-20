@@ -27,16 +27,6 @@ dependencies:
   - name: redis
     version: "16.4.0"
     repository: https://charts.bitnami.com/bitnami
-#    import-values:
-#      - architecture=standalone
-#      - auth.enabled=false
   - name: mysql
     version: 8.8.23
     repository: https://charts.bitnami.com/bitnami
-#    import-values:
-#      - architecture=standalone
-#      - auth.database=social_network
-#      - auth.username=social_network
-#      - auth.password=social_network
-  - name: ingress
-    version: 0.1.0
