@@ -1,14 +1,8 @@
 version: "3.7"
 services:
-  app:
-    build:
-      context: ../
-      dockerfile: Dockerfile
-
   tests-unit:
     build:
       context: .
-      dockerfile: Dockerfile.dev
     command: [ "go", "test", "-v", "./..." ]
     volumes:
       - "./:/app"
@@ -16,7 +10,6 @@ services:
   tests-e2e:
     build:
       context: .
-      dockerfile: Dockerfile.dev
     command: [ "go", "test", "-v", "./tests/..." ]
     env_file:
       - .env
