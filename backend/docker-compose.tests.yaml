@@ -1,15 +1,15 @@
 version: "3.7"
 services:
   tests-unit:
-    build:
-      context: .
+    image: golang:1.17-alpine
+    working_dir: /app
     command: [ "go", "test", "-v", "./..." ]
     volumes:
       - "./:/app"
 
   tests-e2e:
-    build:
-      context: .
+    image: golang:1.17-alpine
+    working_dir: /app
     command: [ "go", "test", "-v", "./tests/..." ]
     env_file:
       - .env

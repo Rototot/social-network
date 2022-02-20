@@ -19,14 +19,14 @@ const (
 //	return []string{"Male", "Female"}[g]
 //}
 
-func (c Gender) Scan(value interface{}) error {
+func (c *Gender) Scan(value interface{}) error {
 	if v, ok := value.([]uint8); ok {
 		switch string(v) {
 		case "male":
-			c = Male
+			*c = Male
 			return nil
 		case "female":
-			c = Female
+			*c = Female
 			return nil
 		}
 	}

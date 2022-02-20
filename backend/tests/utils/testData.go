@@ -2,7 +2,6 @@ package utils
 
 import (
 	"context"
-	"os"
 	"social-network/pkg/users"
 	"social-network/tests/factories"
 	"testing"
@@ -18,8 +17,6 @@ func LoadFixtures(t *testing.T, conn *sql.DB, extraPath string) {
 	if path == "" {
 		path = "tests/fixtures"
 	}
-
-	os.Getwd()
 
 	_, err := testfixtures.New(
 		testfixtures.Database(conn),
@@ -40,9 +37,9 @@ func LoadFactories(t *testing.T, conn *sql.DB) []*users.User {
 	}
 
 	var listUsers = make([]*users.User, 10)
-	for i, _ := range listUsers {
+	for i := range listUsers {
 		user, err := factories.UserFactory.CreateWithContext(
-			context.WithValue(context.Background(), "tx", tx),
+			context.WithValue(context.Background(), ctxTransaction, tx),
 		)
 		if err != nil {
 			t.Fatal(err)

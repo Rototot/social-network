@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"sync"
 	"testing"
 )
@@ -68,13 +69,13 @@ func CleanDB(t *testing.T, conn *sql.DB) {
 	var wg sync.WaitGroup
 	for _, table := range tables {
 		wg.Add(1)
-		go func(tb string) {
+		go func(t *testing.T, tb string) {
 			defer wg.Done()
 			_, err := tx.Query(fmt.Sprintf("TRUNCATE TABLE %s", tb))
 			if err != nil {
-				t.Fatal(err)
+				log.Fatalln(err)
 			}
-		}(table)
+		}(t, table)
 	}
 
 	wg.Wait()

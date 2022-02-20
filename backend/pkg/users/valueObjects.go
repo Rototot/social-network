@@ -12,13 +12,13 @@ type HashedPassword string
 type UserInterests []string
 
 // UserID
-func (u UserID) UnmarshalBinary(data []byte) error {
+func (u *UserID) UnmarshalBinary(data []byte) error {
 	v, err := strconv.Atoi(string(data))
 	if err != nil {
 		return err
 	}
 
-	u = UserID(v)
+	*u = UserID(v)
 
 	return nil
 }

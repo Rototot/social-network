@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"social-network/pkg/common/infrastructure"
 	"social-network/pkg/users"
 	"social-network/pkg/users/infrastructure/persistance/mysql"
 )
@@ -58,7 +59,7 @@ var UserFactory = factory.NewFactory(
 	OnCreate(func(args factory.Args) error {
 		user := args.Instance().(*users.User)
 
-		tx := args.Context().Value("tx").(*sql.Tx)
+		tx := args.Context().Value(infrastructure.CtxTransactionKey).(*sql.Tx)
 
 		interests, _ := json.Marshal(user.Interests)
 		gender, err := mysql.GenderTransformerToDb(user.Gender)

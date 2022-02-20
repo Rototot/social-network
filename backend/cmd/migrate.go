@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"os"
+	"social-network/pkg/common/infrastructure"
 	"social-network/pkg/common/infrastructure/configurator"
 	"time"
 
@@ -25,7 +26,7 @@ var migrateCmd = &cobra.Command{
 		//"user:password@tcp(host:port)/dbname?multiStatements=true"
 		db, err := configurator.OpenMysqlConnection(appConfig)
 		if err != nil {
-			logger.Log("err", err)
+			_ = logger.Log(infrastructure.LogError, err)
 			os.Exit(1)
 		}
 
@@ -38,7 +39,7 @@ var migrateCmd = &cobra.Command{
 			DatabaseName:    appConfig.MySqlDatabase,
 		})
 		if err != nil {
-			logger.Log("err", err.Error())
+			_ = logger.Log(infrastructure.LogError, err.Error())
 			os.Exit(1)
 		}
 
@@ -48,18 +49,18 @@ var migrateCmd = &cobra.Command{
 			driver,
 		)
 		if err != nil {
-			logger.Log("err", err)
+			_ = logger.Log(infrastructure.LogError, err)
 			os.Exit(1)
 		}
 
 		err = m.Up()
 		if err != nil && !errors.Is(err, migrate.ErrNoChange) {
-			logger.Log("err", err)
+			_ = logger.Log(infrastructure.LogError, err)
 
 			os.Exit(1)
 		}
 
-		logger.Log("status", "Migrations completed successfully")
+		_ = logger.Log(infrastructure.LogMigrationsStatus, "Migrations completed successfully")
 	},
 }
 

@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  linter:
+    image: golangci/golangci-lint:latest-alpine
+    command: ["golangci-lint", "run", "-v"]
+    working_dir: /app
+    volumes:
+      - "./:/app"
