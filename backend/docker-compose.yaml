@@ -8,8 +8,8 @@ services:
     depends_on:
       - mysql
       - redis
-#    ports:
-#      - "8000:8000"
+    ports:
+      - "8000:8000"
 
 
   mysql:

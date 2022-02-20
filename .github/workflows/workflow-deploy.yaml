@@ -7,8 +7,8 @@ on:
 
 
 jobs:
-  tests:
-    uses: ./.github/workflows/job-tests.yaml
+#  tests:
+#    uses: ./.github/workflows/job-tests.yaml
 
   image-publish:
     uses: ./.github/workflows/job-docker-build-and-publish.yaml

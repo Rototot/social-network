@@ -16,18 +16,18 @@ func CleanAll(
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
+	go func(t *testing.T) {
 		defer wg.Done()
 		CleanDB(t, conn)
 		t.Log("mysql: clean completed")
-	}()
+	}(t)
 	wg.Add(1)
-	go func() {
+	go func(t *testing.T) {
 		defer wg.Done()
 		CleanRedis(t)
 
 		t.Log("redis: clean completed")
-	}()
+	}(t)
 
 	wg.Wait()
 }
@@ -69,13 +69,17 @@ func CleanDB(t *testing.T, conn *sql.DB) {
 	var wg sync.WaitGroup
 	for _, table := range tables {
 		wg.Add(1)
-		go func(t *testing.T, tb string) {
+		go func(t *testing.T, tb string, tx *sql.Tx) {
 			defer wg.Done()
-			_, err := tx.Query(fmt.Sprintf("TRUNCATE TABLE %s", tb))
-			if err != nil {
+			if _, err := tx.Query(fmt.Sprintf("TRUNCATE TABLE %s", tb)); err != nil {
 				log.Fatalln(err)
 			}
-		}(t, table)
+
+			if _, err := tx.Query(fmt.Sprintf("ALTER TABLE %s AUTO_INCREMENT = 1", tb)); err != nil {
+				log.Fatalln(err)
+			}
+
+		}(t, table, tx)
 	}
 
 	wg.Wait()
