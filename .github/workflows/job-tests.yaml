@@ -29,8 +29,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: Copy Env
-        run: cp .env.dist .env
       - name: Build
         run: |
           cd backend
@@ -46,6 +44,7 @@ jobs:
       - name: E2E Tests
         run: |
           cd backend
+          cp .env.dist .env
           ./scripts/run-test-e2e.sh
 
 
